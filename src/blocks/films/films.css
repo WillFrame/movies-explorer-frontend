@@ -1,0 +1,5 @@
+.films {
+    min-height: calc(100vh - 518px);
+    padding: 0 calc((100% - 1140px) / 2) 30px;
+    background-color: #202020;
+}

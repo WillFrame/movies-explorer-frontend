@@ -1,0 +1,11 @@
+.profile__logout-button {
+    padding: 0;
+    background-color: #202020;
+    border: none;
+    margin: 0 auto;
+    display: block;
+    color: #EE3465;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+}

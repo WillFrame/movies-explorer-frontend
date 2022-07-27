@@ -1,0 +1,14 @@
+.card__add-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    appearance: none;
+    outline: none;
+    background-image: url(../../../images/card-unsaved.svg);
+    transition: .25s;
+    margin: auto;
+}
+
+.card__add-button:checked {
+    background-image: url(../../../images/card-saved.svg);
+}
