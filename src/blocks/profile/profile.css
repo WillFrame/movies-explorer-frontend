@@ -1,7 +1,0 @@
-.profile {
-    height: calc(100vh - 214px);
-    background-color: #202020;
-    padding: 70px calc((100% - 1140px) / 2);
-    display: flex;
-    flex-direction: column;
-}
