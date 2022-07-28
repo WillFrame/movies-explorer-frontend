@@ -18,10 +18,13 @@
 .about-me__info-container {
     display: flex;
     justify-content: space-between;
+    flex-direction: row-reverse;
 }
 
 .about-me__text-container {
     width: 600px;
+    display: flex;
+    flex-direction: column;
 }
 
 .about-me__name {
@@ -43,7 +46,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
-    margin: 26px 0 99px;
+    margin: 26px 0 0;
 }
 
 .about-me__photo {
@@ -55,6 +58,7 @@
 
 .about-me__social-networks-container {
     display: flex;
+    margin-top: auto;
 }
 
 .about-me__social-network {
@@ -73,4 +77,88 @@
 
 .about-me__social-network:last-of-type {
     margin: 0;
+}
+
+@media screen and (max-width: 1279px) {
+    .about-me {
+        width: calc(100vw - 100px);
+        padding: 90px 50px;
+        height: 424px;
+    }
+
+    .about-me__name {
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 40px;
+        margin-bottom: 16px;
+    }
+
+    .about-me__subname {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .about-me__text {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        max-width: 364px;
+        margin: 20px 0 0;
+    }
+
+    .about-me__photo {
+        height: 307px;
+        width: 255px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .about-me {
+        width: calc(100vw - 28px);
+        padding: 70px 14px;
+        height: 764px;
+    }
+
+    .about-me__title {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .about-me__info-container {
+        flex-direction: column;
+    }
+
+    .about-me__photo {
+        width: 292px;
+        height: 352px;
+        margin-top: 60px;
+    }
+
+    .about-me__name {
+        font-size: 30px;
+        line-height: 36px;
+        width: 292px;
+        margin: 40px 0 20px;
+    }
+
+    .about-me__subname {
+        font-size: 11px;
+        line-height: 16px;
+        width: 292px;
+    }
+
+    .about-me__text {
+        font-size: 11px;
+        line-height: 16px;
+        width: 292px;
+    }
+
+    .about-me__text-container {
+        height: 302px;
+    }
+
+    .about-me__social-network {
+        margin-right: 26px;
+    }
 }

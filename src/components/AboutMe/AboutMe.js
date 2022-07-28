@@ -8,6 +8,7 @@ function AboutMe() {
         <section className="about-me">
             <h3 className="about-me__title">Студент</h3>
             <div className="about-me__info-container">
+                <img className="about-me__photo" alt="Фото студента" src={aboutMePhoto} />
                 <div className="about-me__text-container">
                     <h2 className="about-me__name">Виталий</h2>
                     <h4 className="about-me__subname">Фронтенд-разработчик, 30 лет</h4>
@@ -18,7 +19,6 @@ function AboutMe() {
                         <Link className="about-me__social-network" to="#">Facebook</Link>
                     </div>
                 </div>
-                <img className="about-me__photo" alt="Фото студента" src={aboutMePhoto} />
             </div>
         </section>
     )
