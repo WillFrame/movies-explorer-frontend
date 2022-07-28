@@ -24,7 +24,7 @@ function Header({ theme, isLoggedIn }) {
                     <Link to="/signin" className="header__signin">Войти</Link>
                 </>
             }
-            { false
+            { true
                 ? <Navigation />
                 : <></>
             }

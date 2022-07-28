@@ -120,4 +120,17 @@
     .navigation__profile {
         margin-bottom: 46px;
     }
+
+    .navigation__close-button {
+        margin: 13px 13px 0 auto;
+    }
+
+    .navigation__links-container {
+        margin-top: 100px;
+    }
+
+    .navigation__link {
+        padding-bottom: 7px;
+        margin-bottom: 16px;
+    }
 }
