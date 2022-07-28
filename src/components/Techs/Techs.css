@@ -93,6 +93,7 @@
         width: calc(100vw - 36px);
         padding: 70px 18px;
         height: 511px;
+        background-color: #202020;
     }
 
     .techs__subtitle {
@@ -112,5 +113,9 @@
         grid-template-columns: 1fr 1fr;
         width: 178px;
         height: 258px;
+    }
+
+    .techs__title {
+        border-bottom: black 1px solid;
     }
 }

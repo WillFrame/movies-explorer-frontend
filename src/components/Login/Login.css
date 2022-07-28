@@ -109,9 +109,9 @@
 
 @media screen and (max-width: 767px) {
     .login {
-        padding: 50px calc((100vw - 260px) / 2) 30px;
+        padding: 56px calc((100vw - 260px) / 2) 30px;
         height: 596px;
-        min-height: calc(100vh - 80px);
+        min-height: calc(100vh - 86px);
     }
 
     .login__logo {
