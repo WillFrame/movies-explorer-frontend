@@ -34,6 +34,7 @@
     font-size: 11px;
     line-height: 13px;
     margin: 0;
+    width: 60px;
 }
 
 .profile__info-text {
@@ -47,6 +48,9 @@
     border: none;
     color: white;
     outline: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .profile__span {
@@ -118,4 +122,39 @@
     background-color: #F8F8F8;
     color: #C2C2C2;
     margin: 20px auto 0;
+}
+
+@media screen and (max-width: 1279px) {
+    .profile {
+        padding: 236px 0 269px;
+        height: 445px;
+    }
+
+    .profile__greeting {
+        margin-bottom: 96px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile {
+        padding: 70px 0 40px;
+        height: 596px;
+        min-height: calc(100vh - 184px);
+    }
+
+    .profile__greeting {
+        font-size: 24px;
+        line-height: 29px;
+        margin-bottom: 80px;
+    }
+
+    .profile__edit-button,
+    .profile__logout-button {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .profile__info-container {
+        width: 260px;
+    }
 }

@@ -21,13 +21,13 @@
 
 .register__input {
     height: 16px;
-    width: 366px;
+    width: calc(100% - 30px);
     padding: 15px;
     border: none;
     outline: none;
     background-color: #2F2F2F;
     border-radius: 8px;
-    margin: 0 0 20px;
+    margin: 10px 0 20px;
     color: white;
     font-weight: 400;
     font-size: 13px;
@@ -39,7 +39,7 @@
 }
 
 .register__input:last-of-type {
-    margin: 0 0 10px;
+    margin: 10px 0 10px;
 }
 
 .register__input-name {
@@ -63,13 +63,15 @@
 .register__submit {
     background-color: #4285F4;
     border-radius: 3px;
-    width: 396px;
+    width: 100%;
     height: 45px;
     border: none;
     outline: none;
     padding: 0;
     margin: auto 0 16px;
     color: white;
+    font-size: 14px;
+    line-height: 17px;
 }
 
 .register__submit:hover {
@@ -96,4 +98,38 @@
 .register__link:hover {
     opacity: .7;
     transition: .2s;
+}
+
+@media screen and (max-width: 1279px) {
+    .register {
+        padding: 232px calc((100vw - 396px) / 2);
+        height: 560px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .register {
+        padding: 50px calc((100vw - 260px) / 2) 30px;
+        height: 596px;
+        min-height: calc(100vh - 80px);
+    }
+
+    .register__logo {
+        margin: 0 auto;
+    }
+
+    .register__greeting {
+        margin: 50px auto 80px;
+    }
+
+    .register__submit {
+        font-size: 12px;
+        line-height: 15px;
+        margin-bottom: 14px;
+    }
+
+    .register__text {
+        font-size: 12px;
+        line-height: 15px;
+    }
 }
