@@ -161,4 +161,8 @@
     .about-me__social-network {
         margin-right: 26px;
     }
+
+    .about-me__text-container {
+        width: 100%;
+    }
 }
