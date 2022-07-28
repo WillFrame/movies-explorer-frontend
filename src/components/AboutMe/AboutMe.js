@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import aboutMePhoto from '../../images/aboutme-photo.svg';
 
 function AboutMe() {
@@ -15,8 +14,8 @@ function AboutMe() {
                     <p className="about-me__text">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
 и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
                     <div className="about-me__social-networks-container">
-                        <Link className="about-me__social-network" to="#">Github</Link>
-                        <Link className="about-me__social-network" to="#">Facebook</Link>
+                        <a className="about-me__social-network" href="https://github.com/WillFrame" target='_blank' rel='noreferrer'>Github</a>
+                        <a className="about-me__social-network" href="http://facebook.com/" target='_blank' rel='noreferrer'>Facebook</a>
                     </div>
                 </div>
             </div>

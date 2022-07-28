@@ -12,9 +12,9 @@ function MoviesCard() {
                     <p className="movies-card__duration">Длительность фильма</p>
                 </div>
 
-                { location === '/movies'
-                    ? <input type="checkbox" className="movies-card__add-button" />
-                    : <button className="movies-card__delete-button" />
+                { location === '/saved-movies'
+                    ? <button className="movies-card__delete-button" />
+                    : <button className={`movies-card__add-button ${false ? 'movies-card__add-button_active' : ''}`} />
                 }
             </div>
             <img className="movies-card__image" src="https://fotointeres.ru/wp-content/uploads/2012/04/0_827f9_58eba125_orig.jpg" alt="Изображение" />

@@ -43,15 +43,11 @@
     transition: .25s;
     margin: auto;
     padding: 0;
+    border: none;
+    background-color: #313131;
 }
 
-.movies-card__add-button:hover {
-    opacity: .8;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.movies-card__add-button:checked {
+.movies-card__add-button_active {
     background-image: url(../../images/card-saved.svg);
 }
 
@@ -68,6 +64,7 @@
     background-color: #313131;
 }
 
+.movies-card__add-button:hover,
 .movies-card__delete-button:hover {
     opacity: .8;
     cursor: pointer;
