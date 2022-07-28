@@ -9,6 +9,7 @@ function Navigation() {
 
     return (
         <>
+            <div className="navigation__background-opacity"></div>
             <div className="navigation">
                 <button className="navigation__close-button"><img className="navigation__close-image" alt="Кнопка закрытия" src={navClose} /></button>
                 <div className="navigation__links-container">
@@ -18,7 +19,6 @@ function Navigation() {
                 </div>
                 <Link className='navigation__profile' to="/profile">Аккаунт <div className="navigation__profile-container"><img className="navigation__profile-logo" src={profileLogo} alt="Профиль" /></div></Link>
             </div>
-            <div className="navigation__background-opacity"></div>
         </>
     )
 }
