@@ -42,6 +42,7 @@
     background-image: url(../../images/card-unsaved.svg);
     transition: .25s;
     margin: auto;
+    padding: 0;
 }
 
 .movies-card__add-button:hover {
@@ -76,4 +77,54 @@
 .movies-card__image {
     width: 364px;
     height: 203px;
+}
+
+@media screen and (max-width: 1279px) {
+    .movies-card {
+        width: 339px;
+        height: 258px;
+    }
+
+    .movies-card__info-container {
+        width: 250px;
+    }
+
+    .movies-card__top-container {
+        width: 339px;
+    }
+
+    .movies-card__add-button,
+    .movies-card__delete-button {
+        margin: auto 0 auto 31px;
+    }
+
+    .movies-card__image {
+        width: 339px;
+        height: 190px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .movies-card {
+        width: 300px;
+        height: 236px;
+    }
+
+    .movies-card__info-container {
+        width: 210px;
+    }
+
+    .movies-card__top-container {
+        width: 300px;
+    }
+
+    .movies-card__add-button,
+    .movies-card__delete-button {
+        margin: auto 0 auto 32;
+    }
+
+    .movies-card__image {
+        width: 300px;
+        height: 168px;
+    }
 }

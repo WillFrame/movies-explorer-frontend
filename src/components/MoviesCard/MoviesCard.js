@@ -17,7 +17,7 @@ function MoviesCard() {
                     : <button className="movies-card__delete-button" />
                 }
             </div>
-            <img className="movies-card__image" src="" alt="Изображение" />
+            <img className="movies-card__image" src="https://fotointeres.ru/wp-content/uploads/2012/04/0_827f9_58eba125_orig.jpg" alt="Изображение" />
         </div>
     )
 }
