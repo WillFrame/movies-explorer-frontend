@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
-import profileLogo from "../../images/profile-logo.svg"
-import menuLogo from "../../images/menu-logo.svg"
+import profileLogo from "../../images/profile-logo.svg";
+import menuLogo from "../../images/menu-logo.svg";
+import Navigation from "../Navigation/Navigation";
 
 function Header({ theme, isLoggedIn }) {
     const location = useLocation().pathname;
@@ -22,6 +23,10 @@ function Header({ theme, isLoggedIn }) {
                     <Link to="/signup" className="header__signup">Регистрация</Link>
                     <Link to="/signin" className="header__signin">Войти</Link>
                 </>
+            }
+            { true
+                ? <Navigation />
+                : <></>
             }
         </header>
     );
