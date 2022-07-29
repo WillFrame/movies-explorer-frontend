@@ -5,8 +5,8 @@ function Profile() {
     // хардкод
     let name = 'Виталий';
     let email = 'pochta@yandex.ru'
-    let isEdit = false;
-    let isError = false;
+    let isEdit = true;
+    let isError = true;
 
     return (
         <>

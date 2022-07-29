@@ -133,6 +133,11 @@
     .profile__greeting {
         margin-bottom: 96px;
     }
+
+    .profile__span {
+        font-size: 10px;
+        line-height: 12px;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -155,6 +160,10 @@
     }
 
     .profile__info-container {
+        width: 260px;
+    }
+
+    .profile__save-button {
         width: 260px;
     }
 }
