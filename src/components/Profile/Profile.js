@@ -6,7 +6,7 @@ function Profile() {
     let name = 'Виталий';
     let email = 'pochta@yandex.ru'
     let isEdit = true;
-    let isError = false;
+    let isError = true;
 
     return (
         <>

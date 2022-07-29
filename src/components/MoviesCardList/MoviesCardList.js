@@ -22,7 +22,7 @@ function MoviesCardList({ cardsLength }) {
 
             { cardsLength > 12 
                 ? <button className="movies-card-list__more-button">Ещё</button>
-                : <></>
+                : <div className="movies-card-list__margin-bottom"></div>
             }
         </section>
     )
