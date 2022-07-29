@@ -2,4 +2,4 @@
 
 http://diplom.willframe.nomoredomains.xyz/
 
-работаюнад сертификацией, чтоб было https
+работаю над сертификацией, чтоб было https
