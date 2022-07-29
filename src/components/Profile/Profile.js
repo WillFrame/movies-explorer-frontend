@@ -42,8 +42,7 @@ function Profile() {
                 : <>
                     <button className="profile__edit-button">Редактировать</button>
                     <button className="profile__logout-button">Выйти из аккаунта</button>
-                </>
-                }
+                </> }
             </section>
         </>
     )
