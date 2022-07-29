@@ -1,5 +1,5 @@
 # movies-explorer-frontend
 
-закончился пробный период в яндекс.облаке, пока работаю над тем, чтоб все было в порядке, но сервер еще не установлен
+http://diplom.willframe.nomoredomains.xyz/
 
-https://diplom.willframe.nomoredomains.xyz/
+работаюнад сертификацией, чтоб было https
