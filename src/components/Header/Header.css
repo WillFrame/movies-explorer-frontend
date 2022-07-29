@@ -119,6 +119,7 @@
 .header__menu-button:hover {
     opacity: .8;
     transition: .2s;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1279px) {

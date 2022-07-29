@@ -6,7 +6,7 @@ function Profile() {
     let name = 'Виталий';
     let email = 'pochta@yandex.ru'
     let isEdit = true;
-    let isError = true;
+    let isError = false;
 
     return (
         <>
@@ -29,8 +29,15 @@ function Profile() {
                 </div>
                 { isEdit
                 ? <>
-                    <span className={`profile__span ${isError ? '' : 'profile__span_disabled'}`}>При обновлении профиля произошла ошибка.</span>
-                    <button className={`profile__save-button ${isError ? 'profile__save-button_disabled' : ''}`}>Сохранить</button>
+                    {isError
+                    ? <>
+                        <span className='profile__span'>При обновлении профиля произошла ошибка.</span>
+                        <button className='profile__save-button profile__save-button_disabled'>Сохранить</button>
+                    </>
+                    : <>
+                        <span className='profile__span profile__span_disabled'>При обновлении профиля произошла ошибка.</span>
+                        <button className='profile__save-button'>Сохранить</button>
+                    </> }
                 </>
                 : <>
                     <button className="profile__edit-button">Редактировать</button>
