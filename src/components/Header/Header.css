@@ -1,0 +1,158 @@
+.header {
+    height: 74px;
+    display: flex;
+    align-items: center;
+    max-width: 1280px;
+    padding: 0 calc((100% - 1140px) / 2);
+}
+
+.header__logo {
+    width: 38px;
+    height: 38px;
+    margin-right: 28px;
+}
+
+.header__link {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    margin-left: 16px;
+    text-decoration: none;
+    color: white;
+}
+
+.header__link:hover {
+    opacity: .7;
+    transition: .2s;
+}
+
+.header__link_active {
+    font-weight: 500;
+}
+
+.header__profile-container {
+    background-color: #313131;
+    border-radius: 50px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    margin-left: 7px;
+}
+
+.header__profile {
+    margin-left: auto;
+    background-color: #202020;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 12px;
+    text-decoration: none;
+}
+
+.header__profile:hover {
+    opacity: .7;
+    transition: .2s;
+    cursor: pointer;
+}
+
+.header__profile-logo {
+    margin: auto;
+}
+
+.header__signin {
+    background-color: #3DDC84;
+    width: 76px;
+    border: none;
+    color: black;
+    border-radius: 3px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    margin-left: 30px;
+    text-decoration: none;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.header__signin:hover {
+    opacity: .8;
+    transition: .2s;
+}
+
+.header__signup {
+    margin-left: auto;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.header__signup:hover {
+    opacity: .7;
+    transition: .2s;
+}
+
+.header_theme_dark {
+    background-color: #202020;
+}
+
+.header_theme_gray {
+    background-color: #073042;
+}
+
+.header__menu-button {
+    background-color: #202020;
+    border: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0 0 0 auto;
+    display: none;
+}
+
+.header__menu-button:hover {
+    opacity: .8;
+    transition: .2s;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1279px) {
+    .header {
+        width: calc(100vw - 60px);
+        padding: 0 30px;
+    }
+
+    .header__link {
+        display: none;
+    }
+
+    .header__profile {
+        display: none;
+    }
+
+    .header__menu-button {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .header {
+        width: calc(100vw - 28px);
+        padding: 0 14px;
+    }
+
+    .header__menu-button {
+        width: 40px;
+        height: 43px;
+    }
+
+    .header__signin {
+        margin-left: 14px;
+    }
+}
