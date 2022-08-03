@@ -4,7 +4,6 @@ import SearchForm from "../SearchForm/SearchForm";
 import Footer from "../Footer/Footer";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import MoviesCard from "../MoviesCard/MoviesCard";
 
 function SavedMovies({ isLoggedIn }) {
     const movies = [

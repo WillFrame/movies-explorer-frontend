@@ -1,20 +1,21 @@
 import React from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({ elements }) {
+function MoviesCardList({ movies = [] }) {
     return (
         <section className="movies-card-list">
             <div className="movies-card-list__container">
-                {elements.map((item) => 
+                { movies.map((item) => 
                     <MoviesCard
-                        title={item.title}
+                        title={item.nameRU}
                         duration={item.duration}
-                        image={item.image}
+                        image={'https://api.nomoreparties.co/' + item.image.url}
+                        key={item.id}
                     />
                 )}
             </div>
 
-            { elements.length > 12 
+            { movies.length > 12 
                 ? <button className="movies-card-list__more-button">Ещё</button>
                 : <div className="movies-card-list__margin-bottom"></div>
             }

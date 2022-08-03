@@ -8,6 +8,7 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import { register, authorize, getUser, updateUser } from '../../utils/MainApi';
+import { getMovies } from '../../utils/MoviesApi';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import './App.css';
 
@@ -18,6 +19,7 @@ function App() {
     const [isLoginError, setIsLoginError] = useState(false);
     const [isProfileError, setIsProfileError] = useState(false);
     const [isProfileEdit, setIsProfileEdit] = useState(false);
+    const [movies, setMovies] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -40,6 +42,16 @@ function App() {
                 navigate('/');
             }
         }
+    }, []);
+
+    useEffect(() => {
+        getMovies()
+            .then(res => {
+                setMovies(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }, []);
 
     function handleLogin(email, password) {
@@ -86,16 +98,7 @@ function App() {
     function handleRegister(name, email, password) {
         register(name, email, password)
             .then(() => {
-                authorize(email, password)
-                    .then((res) => {
-                        localStorage.setItem('jwt', res.token);
-                        getUser(res.token)
-                            .then((res) => {
-                                setCurrentUser({ name: res.data.name, email: res.data.email });
-                                setIsLoggedIn(true);
-                                navigate('/movies');
-                            });
-            })
+                handleLogin(name, password);
             })
             .catch((err) => {
                 setIsRegisterError(true);
@@ -137,11 +140,17 @@ function App() {
                 } />
 
                 <Route path="/movies" element={
-                    <Movies isLoggedIn={isLoggedIn} />
+                    <Movies
+                        isLoggedIn={isLoggedIn}
+                        movies={movies}
+                    />
                 } />
 
                 <Route path="/saved-movies" element={
-                    <SavedMovies isLoggedIn={isLoggedIn} />
+                    <SavedMovies
+                        isLoggedIn={isLoggedIn}
+                        movies={movies}
+                    />
                 } />
 
                 <Route path="/profile" element={
