@@ -1,7 +1,7 @@
 import React from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({ movies = [] }) {
+function MoviesCardList({ movies = [], onSaveMovie, onDeleteMovie }) {
     return (
         <section className="movies-card-list">
             <div className="movies-card-list__container">
@@ -11,6 +11,9 @@ function MoviesCardList({ movies = [] }) {
                         duration={item.duration}
                         image={'https://api.nomoreparties.co/' + item.image.url}
                         key={item.id}
+                        onSaveMovie={onSaveMovie}
+                        onDeleteMovie={onDeleteMovie}
+                        id={item.id}
                     />
                 )}
             </div>

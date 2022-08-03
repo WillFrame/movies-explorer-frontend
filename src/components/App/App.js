@@ -7,7 +7,7 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
-import { register, authorize, getUser, updateUser } from '../../utils/MainApi';
+import { register, authorize, getUser, updateUser, getSavedMovies, createMovie, deleteMovie } from '../../utils/MainApi';
 import { getMovies } from '../../utils/MoviesApi';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import './App.css';
@@ -20,6 +20,7 @@ function App() {
     const [isProfileError, setIsProfileError] = useState(false);
     const [isProfileEdit, setIsProfileEdit] = useState(false);
     const [movies, setMovies] = useState([]);
+    const [savedMovies, setSavedMovies] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -105,17 +106,17 @@ function App() {
             })
     };
 
-    // useEffect(() => {
-    //     if (isLoggedIn) {
-    //         console.log('hi');
-    //         authorize()
-    //             .then(res => {
-    //                 console.log(res.data);
-    //                 setCurrentUser(res.data);
-    //             })
-    //             .catch(res => console.log(res.err));
-    //     }
-    // }, [isLoggedIn]);
+    function handleSaveMovie(id) {
+        const movie = movies.find((item) => 
+            item.id === id
+        )
+        console.log(movie);
+        createMovie(movie);
+    }
+
+    function handleDeleteMovie(id) {
+        console.log(id);
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -142,6 +143,8 @@ function App() {
                     <Movies
                         isLoggedIn={isLoggedIn}
                         movies={movies}
+                        onSaveMovie={handleSaveMovie}
+                        onDeleteMovie={handleDeleteMovie}
                     />
                 } />
 

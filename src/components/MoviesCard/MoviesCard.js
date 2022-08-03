@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ title, duration, image, }) {
+function MoviesCard({ title, duration, image, onSaveMovie, onDeleteMovie, id }) {
     const location = useLocation().pathname;
     const [isLiked, setIsLiked] = useState(false);
 
     function handleLikeButton() {
-        if (isLiked) {
-            
+        if (!isLiked) {
+            onSaveMovie(id)
+        }
+        else {
+            onDeleteMovie(id);
         }
         setIsLiked(!isLiked);
     }

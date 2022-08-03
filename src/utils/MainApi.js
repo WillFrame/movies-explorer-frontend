@@ -89,7 +89,7 @@ export const createMovie = ({
     })
 }
 
-export const getMovies = () => {
+export const getSavedMovies = () => {
     return fetch(`${BASE_URL}/movies`, {
         headers: {
             "Content-Type": "application/json",
