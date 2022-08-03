@@ -5,6 +5,13 @@ function MoviesCard({ title, duration, image, }) {
     const location = useLocation().pathname;
     const [isLiked, setIsLiked] = useState(false);
 
+    function handleLikeButton() {
+        if (isLiked) {
+            
+        }
+        setIsLiked(!isLiked);
+    }
+
     return (
         <div className="movies-card">
             <div className="movies-card__top-container">
@@ -15,7 +22,7 @@ function MoviesCard({ title, duration, image, }) {
 
                 { location === '/saved-movies'
                     ? <button className="movies-card__delete-button" />
-                    : <button className={`movies-card__add-button ${isLiked ? 'movies-card__add-button_active' : ''}`} />
+                    : <button className={`movies-card__add-button ${isLiked ? 'movies-card__add-button_active' : ''}`} onClick={handleLikeButton} />
                 }
             </div>
             <img className="movies-card__image" src={image} alt={title} />

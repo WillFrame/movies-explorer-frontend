@@ -26,7 +26,7 @@ function App() {
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
         if (jwt) {
-            getUser(jwt)
+            getUser()
                 .then((res) => {
                     if (res) {
                         setIsLoggedIn(true);
@@ -58,7 +58,7 @@ function App() {
         authorize(email, password)
             .then((res) => {
                 localStorage.setItem('jwt', res.token);
-                getUser(res.token)
+                getUser()
                     .then((res) => {
                         setCurrentUser({ name: res.data.name, email: res.data.email });
                         setIsLoggedIn(true);
@@ -76,8 +76,7 @@ function App() {
     };
 
     function handleUpdateUser(name, email) {
-        const jwt = localStorage.getItem('jwt');
-        updateUser(jwt, name, email)
+        updateUser(name, email)
             .then(() => {
                 setCurrentUser({ name, email });
                 setIsProfileEdit(false);

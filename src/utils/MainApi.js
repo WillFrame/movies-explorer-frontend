@@ -29,22 +29,22 @@ export const authorize = (email, password) => {
     .then(res => checkResponse(res))
 }
 
-export const getUser = (token) => {
+export const getUser = () => {
     return fetch(`${BASE_URL}/users/me`, {
         headers: {
             "Content-Type": "application/json",
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("jwt")}`
         }
     })
     .then(res => checkResponse(res))
 }
 
-export const updateUser = (token, name, email) => {
+export const updateUser = (name, email) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("jwt")}`
         },
         body: JSON.stringify({
             name,
@@ -53,3 +53,60 @@ export const updateUser = (token, name, email) => {
     })
     .then(res => checkResponse(res))
 }
+
+export const createMovie = ({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+  }) => {
+    return fetch(`${BASE_URL}/movies`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization" : `Bearer ${localStorage.getItem("jwt")}`
+        },
+        body: JSON.stringify({
+            country,
+            director,
+            duration,
+            year,
+            description,
+            image,
+            trailerLink,
+            thumbnail,
+            movieId,
+            nameRU,
+            nameEN,
+          })
+    })
+}
+
+export const getMovies = () => {
+    return fetch(`${BASE_URL}/movies`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization" : `Bearer ${localStorage.getItem("jwt")}`
+        }
+    })
+    .then(res => checkResponse(res))
+}
+
+export const deleteMovie = (movieId) => {
+    return fetch(`${BASE_URL}/movies/${movieId}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization" : `Bearer ${localStorage.getItem("jwt")}`
+        }
+    })
+    .then(res => checkResponse(res))
+}
+
