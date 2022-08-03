@@ -2,8 +2,6 @@
     height: calc(100vh - 214px);
     background-color: #202020;
     padding: 70px calc((100% - 1140px) / 2);
-    display: flex;
-    flex-direction: column;
 }
 
 .profile__greeting {
@@ -129,6 +127,12 @@
     cursor: default;
 }
 
+.profile__form {
+    height: calc(100% - 152px);
+    flex-direction: column;
+    display: flex;
+}
+
 @media screen and (max-width: 1279px) {
     .profile {
         padding: 236px 0 269px;
@@ -142,6 +146,10 @@
     .profile__span {
         font-size: 10px;
         line-height: 12px;
+    }
+
+    .profile__form {
+        height: calc(100% - 125px);
     }
 }
 
@@ -170,5 +178,9 @@
 
     .profile__save-button {
         width: 260px;
+    }
+
+    .profile__form {
+        height: calc(100% - 109px);
     }
 }

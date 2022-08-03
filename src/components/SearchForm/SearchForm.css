@@ -21,6 +21,8 @@
     background-color: #202020;
     color: white;
     padding: 0;
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .search-form__input:focus {
@@ -67,6 +69,8 @@
 
     .search-form__input {
         margin: 0 0 0 12px;
+        font-size: 16px;
+        line-height: 16px;
     }
 
     .search-form__submit {
