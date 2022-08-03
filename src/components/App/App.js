@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Main from '../Main/Main';
@@ -7,7 +7,6 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { register, authorize, getUser, updateUser } from '../../utils/MainApi';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import './App.css';
@@ -20,6 +19,7 @@ function App() {
     const [isProfileError, setIsProfileError] = useState(false);
     const [isProfileEdit, setIsProfileEdit] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
@@ -31,7 +31,14 @@ function App() {
                         setCurrentUser({ name: res.data.name, email: res.data.email });
                     }
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        else {
+            if ((location.pathname !== '/signin') && (location.pathname !== '/signup')) {
+                navigate('/');
+            }
         }
     }, []);
 
@@ -42,11 +49,9 @@ function App() {
                 getUser(res.token)
                     .then((res) => {
                         setCurrentUser({ name: res.data.name, email: res.data.email });
-                        console.log(isLoggedIn);
+                        setIsLoggedIn(true);
+                        navigate('/movies');
                     });
-                setIsLoggedIn(true);
-                console.log(isLoggedIn);
-                navigate('/');
             })
             .catch((err) => {
                 setIsLoginError(false);
@@ -81,7 +86,16 @@ function App() {
     function handleRegister(name, email, password) {
         register(name, email, password)
             .then(() => {
-                navigate('/signin');
+                authorize(email, password)
+                    .then((res) => {
+                        localStorage.setItem('jwt', res.token);
+                        getUser(res.token)
+                            .then((res) => {
+                                setCurrentUser({ name: res.data.name, email: res.data.email });
+                                setIsLoggedIn(true);
+                                navigate('/movies');
+                            });
+            })
             })
             .catch((err) => {
                 setIsRegisterError(true);
@@ -123,28 +137,22 @@ function App() {
                 } />
 
                 <Route path="/movies" element={
-                    <ProtectedRoute isLoggedIn={isLoggedIn}>
-                        <Movies isLoggedIn={isLoggedIn} />
-                    </ProtectedRoute>
+                    <Movies isLoggedIn={isLoggedIn} />
                 } />
 
                 <Route path="/saved-movies" element={
-                    <ProtectedRoute isLoggedIn={isLoggedIn}>
-                        <SavedMovies isLoggedIn={isLoggedIn} />
-                    </ProtectedRoute>
+                    <SavedMovies isLoggedIn={isLoggedIn} />
                 } />
 
                 <Route path="/profile" element={
-                    <ProtectedRoute isLoggedIn={isLoggedIn}>
-                        <Profile
-                            isLoggedIn={isLoggedIn}
-                            isEdit={isProfileEdit}
-                            isError={isProfileError}
-                            onUpdateUser={handleUpdateUser}
-                            onEdit={handleEditProfile}
-                            onSignOut={handleSignOut}
-                        />
-                    </ProtectedRoute>
+                    <Profile
+                        isLoggedIn={isLoggedIn}
+                        isEdit={isProfileEdit}
+                        isError={isProfileError}
+                        onUpdateUser={handleUpdateUser}
+                        onEdit={handleEditProfile}
+                        onSignOut={handleSignOut}
+                    />
                 } />
 
                 <Route path="*" element={
