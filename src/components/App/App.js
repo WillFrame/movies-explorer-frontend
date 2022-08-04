@@ -9,6 +9,7 @@ import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import { register, authorize, getUser, updateUser, getSavedMovies, createMovie, deleteMovie } from '../../utils/MainApi';
 import { getMovies } from '../../utils/MoviesApi';
+import MoviesFilter from '../../utils/MoviesFilter';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import './App.css';
 
@@ -21,6 +22,8 @@ function App() {
     const [isProfileEdit, setIsProfileEdit] = useState(false);
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [search, setSearch] = useState({ key: '', short: false});
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -43,16 +46,6 @@ function App() {
                 navigate('/');
             }
         }
-    }, []);
-
-    useEffect(() => {
-        getMovies()
-            .then(res => {
-                setMovies(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
     }, []);
 
     function handleLogin(email, password) {
@@ -106,17 +99,68 @@ function App() {
             })
     };
 
-    function handleSaveMovie(id) {
+    function handleLikeMovie(id) {
         const movie = movies.find((item) => 
             item.id === id
         )
-        console.log(movie);
-        createMovie(movie);
+        createMovie({
+            country: movie.country || 'none',
+            description: movie.description,
+            director: movie.director,
+            duration: movie.duration,
+            movieId: movie.id,
+            image: `https://api.nomoreparties.co` + movie.image.url,
+            nameEN: movie.nameEN,
+            nameRU: movie.nameRU,
+            trailerLink: movie.trailerLink,
+            year: movie.year,
+            thumbnail: `https://api.nomoreparties.co` + movie.image.formats.thumbnail.url
+        });
+        handleGetSavedMovies();
+    }
+
+    function handleDislikeMovie(id) {
+        console.log(id);
     }
 
     function handleDeleteMovie(id) {
-        console.log(id);
+        const movie = savedMovies.find((item) => item.movieId === id)
+        deleteMovie(movie._id)
+            .then(() => {
+                handleGetSavedMovies();
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
+
+    function handleGetSavedMovies() {
+        getSavedMovies()
+            .then(res => {
+                setSavedMovies(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    function getAllMovies() {
+        getMovies()
+            .then(res => {
+                setMovies(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        handleGetSavedMovies();
+    }
+
+    useEffect(() => {
+        getAllMovies();
+        const filtMovies = MoviesFilter(movies, search);
+        setFilteredMovies(filtMovies);
+        console.log(movies, search);
+    }, [search]);
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -143,15 +187,22 @@ function App() {
                     <Movies
                         isLoggedIn={isLoggedIn}
                         movies={movies}
-                        onSaveMovie={handleSaveMovie}
-                        onDeleteMovie={handleDeleteMovie}
+                        savedMovies={savedMovies}
+                        onLikeMovie={handleLikeMovie}
+                        onDislikeMovie={handleDislikeMovie}
+                        onGetAllMovies={getAllMovies}
+                        setSearch={setSearch}
+                        search={search}
+                        filteredMovies={filteredMovies}
                     />
                 } />
 
                 <Route path="/saved-movies" element={
                     <SavedMovies
                         isLoggedIn={isLoggedIn}
-                        movies={movies}
+                        savedMovies={savedMovies}
+                        onGetSavedMovies={handleGetSavedMovies}
+                        onDeleteMovie={handleDeleteMovie}
                     />
                 } />
 

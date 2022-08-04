@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ title, duration, image, onSaveMovie, onDeleteMovie, id }) {
+function MoviesCard({ title, duration, image, onLikeMovie, onDislikeMovie, onDeleteMovie, id }) {
     const location = useLocation().pathname;
     const [isLiked, setIsLiked] = useState(false);
 
     function handleLikeButton() {
         if (!isLiked) {
-            onSaveMovie(id)
+            onLikeMovie(id)
         }
         else {
-            onDeleteMovie(id);
+            onDislikeMovie(id);
         }
         setIsLiked(!isLiked);
     }
 
+    function handleDeleteMovie() {
+        onDeleteMovie(id);
+    }
+    
     return (
         <div className="movies-card">
             <div className="movies-card__top-container">
@@ -24,8 +28,8 @@ function MoviesCard({ title, duration, image, onSaveMovie, onDeleteMovie, id }) 
                 </div>
 
                 { location === '/saved-movies'
-                    ? <button className="movies-card__delete-button" />
-                    : <button className={`movies-card__add-button ${isLiked ? 'movies-card__add-button_active' : ''}`} onClick={handleLikeButton} />
+                    ? <button className="movies-card__delete-button" type="button" onClick={handleDeleteMovie} />
+                    : <button className={`movies-card__add-button ${isLiked ? 'movies-card__add-button_active' : ''}`} type="button" onClick={handleLikeButton} />
                 }
             </div>
             <img className="movies-card__image" src={image} alt={title} />
