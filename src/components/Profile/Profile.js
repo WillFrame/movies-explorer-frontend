@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
 import Header from "../Header/Header";
+import Preloader from "../Preloader/Preloader";
 
-function Profile({ isLoggedIn, isError, isEdit, onUpdateUser, onEdit, onSignOut }) {
+function Profile({ isLoggedIn, isError, isEdit, onUpdateUser, onEdit, onSignOut, isLoading }) {
     const currentUser = useContext(CurrentUserContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -20,45 +21,55 @@ function Profile({ isLoggedIn, isError, isEdit, onUpdateUser, onEdit, onSignOut 
         onUpdateUser(name, email);
     };
 
+    useEffect(() => {
+        setEmail('');
+        setName('')
+    }, [isEdit]);
+
     return (
         <>
             <Header theme="header_theme_dark" isLoggedIn={isLoggedIn} />
             <section className="profile">
-                <h1 className="profile__greeting">{`Привет, ` + currentUser.name}</h1>
-                <form className="profile__form" onSubmit={handleSubmit}>
-                    <div className="profile__info-container">
-                        <p className="profile__info-title">Имя</p>
-                        { isEdit
-                            ? <input className="profile__info-text" value={name} onChange={handleNameChange} maxLength='20' minLength='2' required />
-                            : <p className="profile__info-text">{currentUser.name}</p>
-                        }
-                    </div>
-                    <div className="profile__info-container">
-                        <p className="profile__info-title">E-mail</p>
-                        { isEdit
-                            ? <input className="profile__info-text" value={email} onChange={handleEmailChange} maxLength='20' minLength='2' required />
-                            : <p className="profile__info-text">{currentUser.email}</p>
-                        }
-                    </div>
-                    { isEdit
-                        ? <>
-                            { isError
+                {isLoading
+                    ? <Preloader />
+                    : <>
+                        <h1 className="profile__greeting">{`Привет, ` + currentUser.name}</h1>
+                        <form className="profile__form" onSubmit={handleSubmit}>
+                            <div className="profile__info-container">
+                                <p className="profile__info-title">Имя</p>
+                                { isEdit
+                                    ? <input className="profile__info-text" value={name} onChange={handleNameChange} maxLength='20' minLength='2' required />
+                                    : <p className="profile__info-text">{currentUser.name}</p>
+                                }
+                            </div>
+                            <div className="profile__info-container">
+                                <p className="profile__info-title">E-mail</p>
+                                { isEdit
+                                    ? <input className="profile__info-text" value={email} onChange={handleEmailChange} maxLength='20' minLength='2' required />
+                                    : <p className="profile__info-text">{currentUser.email}</p>
+                                }
+                            </div>
+                            { isEdit
                                 ? <>
-                                    <span className='profile__span'>При обновлении профиля произошла ошибка.</span>
-                                    <button className='profile__save-button profile__save-button_disabled' disabled type="submit">Сохранить</button>
+                                    { isError
+                                        ? <>
+                                            <span className='profile__span'>При обновлении профиля произошла ошибка.</span>
+                                            <button className='profile__save-button profile__save-button_disabled' disabled type="submit">Сохранить</button>
+                                        </>
+                                        : <>
+                                            <span className='profile__span profile__span_disabled'>При обновлении профиля произошла ошибка.</span>
+                                            <button className='profile__save-button' type="submit">Сохранить</button>
+                                        </>
+                                    }
                                 </>
                                 : <>
-                                    <span className='profile__span profile__span_disabled'>При обновлении профиля произошла ошибка.</span>
-                                    <button className='profile__save-button' type="submit">Сохранить</button>
+                                    <button className="profile__edit-button" onClick={onEdit} type="button">Редактировать</button>
+                                    <button className="profile__logout-button" type="button" onClick={onSignOut}>Выйти из аккаунта</button>
                                 </>
                             }
-                        </>
-                        : <>
-                            <button className="profile__edit-button" onClick={onEdit} type="button">Редактировать</button>
-                            <button className="profile__logout-button" type="button" onClick={onSignOut}>Выйти из аккаунта</button>
-                        </>
-                    }
-                </form>
+                        </form>
+                    </>
+                }
             </section>
         </>
     )

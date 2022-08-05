@@ -5,13 +5,31 @@ import Footer from "../Footer/Footer";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function SavedMovies({ isLoggedIn, onDeleteMovie, savedMovies }) {
+function SavedMovies({
+    isLoggedIn,
+    onDeleteMovie,
+    savedMovies,
+    setSearch,
+    search,
+    getFilteredMovies,
+    filteredMovies,
+    setFilteredMovies,
+    isLoading,
+    isMoviesError
+}) {
     return (
         <>
             <Header theme="header_theme_dark" isLoggedIn={isLoggedIn} />
-            <SearchForm />
-            <FilterCheckbox />
-            <MoviesCardList onDeleteMovie={onDeleteMovie} savedMovies={savedMovies} />
+            <SearchForm setSearch={setSearch} search={search} getFilteredMovies={getFilteredMovies} />
+            <FilterCheckbox setSearch={setSearch} search={search} />
+            <MoviesCardList
+                onDeleteMovie={onDeleteMovie}
+                savedMovies={savedMovies}
+                movies={filteredMovies}
+                setFilteredMovies={setFilteredMovies}
+                isLoading={isLoading}
+                isMoviesError={isMoviesError}
+            />
             <Footer />
         </>
     )

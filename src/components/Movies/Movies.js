@@ -5,8 +5,19 @@ import Footer from "../Footer/Footer";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({ isLoggedIn, onLikeMovie, onDeleteMovie, setSearch, search, filteredMovies, savedMovies, getFilteredMovies }) {
-
+function Movies({
+    isLoggedIn,
+    onLikeMovie,
+    onDeleteMovie,
+    setSearch,
+    search,
+    filteredMovies,
+    savedMovies,
+    getFilteredMovies,
+    setFilteredMovies,
+    isLoading,
+    isMoviesError
+}) {
     return (
         <>
             <Header theme="header_theme_dark" isLoggedIn={isLoggedIn} />
@@ -17,6 +28,9 @@ function Movies({ isLoggedIn, onLikeMovie, onDeleteMovie, setSearch, search, fil
                 onLikeMovie={onLikeMovie}
                 onDeleteMovie={onDeleteMovie}
                 savedMovies={savedMovies}
+                setFilteredMovies={setFilteredMovies}
+                isLoading={isLoading}
+                isMoviesError={isMoviesError}
             />
             <Footer />
         </>

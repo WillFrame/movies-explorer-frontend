@@ -24,6 +24,8 @@ function App() {
     const [savedMovies, setSavedMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [search, setSearch] = useState({ key: '', short: false});
+    const [isLoading, setIsLoading] = useState(false);
+    const [isMoviesError, setIsMoviesError] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -70,15 +72,18 @@ function App() {
     };
 
     function handleUpdateUser(name, email) {
+        setIsLoading(true);
         updateUser(name, email)
             .then(() => {
                 setCurrentUser({ name, email });
                 setIsProfileEdit(false);
                 setIsProfileError(false);
             })
-            .catch(() => {
+            .catch((err) => {
                 setIsProfileError(true);
+                console.log(err)
             })
+            .finally(() => setIsLoading(false))
     };
 
     function handleSignOut() {
@@ -116,48 +121,47 @@ function App() {
             year: movie.year,
             thumbnail: `https://api.nomoreparties.co` + movie.image.formats.thumbnail.url
         });
-        handleGetSavedMovies();
+        getSavedMovies()
+            .then(res => setSavedMovies(res.data))
+            .catch(err => {
+                console.log(err);
+                setIsMoviesError(true);
+            });
     }
 
     function handleDeleteMovie(id) {
-        const movie = savedMovies.find((item) => item.movieId === id)
+        const movie = savedMovies.find((item) => item.movieId === id);
         deleteMovie(movie._id)
             .then(() => {
-                handleGetSavedMovies();
+                setSavedMovies(savedMovies.filter((item) => item.movieId !== id))
             })
             .catch((err) => {
                 console.log(err);
-            })
+                setIsMoviesError(true);
+            });
     }
 
-    function handleGetSavedMovies() {
-        getSavedMovies()
-            .then(res => {
-                setSavedMovies(res.data);
+    function getFilteredMovies() {
+        setIsLoading(true);
+        Promise.all([getSavedMovies(), getMovies()])
+            .then(([savedRes, moviesRes]) => {
+                setSavedMovies(savedRes.data);
+                setMovies(moviesRes);
             })
             .catch((err) => {
                 console.log(err);
+                setIsMoviesError(true);
             })
+            .finally(() => setIsLoading(false));
     }
 
     useEffect(() => {
-        getMovies()
-            .then(res => {
-                setMovies(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-        if (isLoggedIn) {
-            handleGetSavedMovies();
+        if (movies && savedMovies) {
+            location.pathname === '/movies'
+                ? setFilteredMovies(MoviesFilter(movies, search))
+                : setFilteredMovies(MoviesFilter(savedMovies, search));
         }
-    }, [currentUser]);
-
-    function getFilteredMovies() {
-        console.log(movies);
-        console.log(search);
-        setFilteredMovies(MoviesFilter(movies, search));
-    };
+    }, [movies, savedMovies]);
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -191,6 +195,8 @@ function App() {
                         search={search}
                         getFilteredMovies={getFilteredMovies}
                         setFilteredMovies={setFilteredMovies}
+                        isLoading={isLoading}
+                        isMoviesError={isMoviesError}
                     />
                 } />
 
@@ -199,6 +205,13 @@ function App() {
                         isLoggedIn={isLoggedIn}
                         savedMovies={savedMovies}
                         onDeleteMovie={handleDeleteMovie}
+                        setSearch={setSearch}
+                        search={search}
+                        getFilteredMovies={getFilteredMovies}
+                        filteredMovies={filteredMovies}
+                        setFilteredMovies={setFilteredMovies}
+                        isLoading={isLoading}
+                        isMoviesError={isMoviesError}
                     />
                 } />
 
@@ -210,6 +223,7 @@ function App() {
                         onUpdateUser={handleUpdateUser}
                         onEdit={handleEditProfile}
                         onSignOut={handleSignOut}
+                        isLoading={isLoading}
                     />
                 } />
 
