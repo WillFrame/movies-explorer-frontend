@@ -91,7 +91,7 @@ function App() {
     function handleRegister(name, email, password) {
         register(name, email, password)
             .then(() => {
-                handleLogin(name, password);
+                handleLogin(email, password);
             })
             .catch((err) => {
                 setIsRegisterError(true);
