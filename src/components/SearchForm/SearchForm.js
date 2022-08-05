@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 
-function SearchForm({ setSearch, search }) {
+function SearchForm({ setSearch, search, getFilteredMovies }) {
     const [key, setKey] = useState('');
 
     function handleSubmit(e) {
         e.preventDefault();
-        setSearch({ ...search, key: key });
-        setSearch({ ...search, key: key });
+        getFilteredMovies();
     }
 
     function handleChangeKey(e) {
-        setKey(e.target.value)
+        setSearch({ ...search, key: e.target.value });
     }
 
     return (

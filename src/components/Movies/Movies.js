@@ -5,22 +5,18 @@ import Footer from "../Footer/Footer";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({ isLoggedIn, movies, onLikeMovie, onDislikeMovie, onGetAllMovies, setSearch, search, filteredMovies }) {
-    // if (isLoggedIn) {
-    //     onGetAllMovies();
-    // }
-
-    console.log(filteredMovies);
+function Movies({ isLoggedIn, onLikeMovie, onDeleteMovie, setSearch, search, filteredMovies, savedMovies, getFilteredMovies }) {
 
     return (
         <>
             <Header theme="header_theme_dark" isLoggedIn={isLoggedIn} />
-            <SearchForm setSearch={setSearch} search={search} />
+            <SearchForm setSearch={setSearch} search={search} getFilteredMovies={getFilteredMovies} />
             <FilterCheckbox setSearch={setSearch} search={search} />
             <MoviesCardList
                 movies={filteredMovies}
                 onLikeMovie={onLikeMovie}
-                onDislikeMovie={onDislikeMovie}
+                onDeleteMovie={onDeleteMovie}
+                savedMovies={savedMovies}
             />
             <Footer />
         </>

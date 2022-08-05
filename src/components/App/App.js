@@ -110,17 +110,13 @@ function App() {
             duration: movie.duration,
             movieId: movie.id,
             image: `https://api.nomoreparties.co` + movie.image.url,
-            nameEN: movie.nameEN,
+            nameEN: movie.nameEN || 'none',
             nameRU: movie.nameRU,
             trailerLink: movie.trailerLink,
             year: movie.year,
             thumbnail: `https://api.nomoreparties.co` + movie.image.formats.thumbnail.url
         });
         handleGetSavedMovies();
-    }
-
-    function handleDislikeMovie(id) {
-        console.log(id);
     }
 
     function handleDeleteMovie(id) {
@@ -144,7 +140,7 @@ function App() {
             })
     }
 
-    function getAllMovies() {
+    useEffect(() => {
         getMovies()
             .then(res => {
                 setMovies(res);
@@ -152,15 +148,16 @@ function App() {
             .catch((err) => {
                 console.log(err);
             })
-        handleGetSavedMovies();
-    }
+        if (isLoggedIn) {
+            handleGetSavedMovies();
+        }
+    }, [currentUser]);
 
-    useEffect(() => {
-        getAllMovies();
-        const filtMovies = MoviesFilter(movies, search);
-        setFilteredMovies(filtMovies);
-        console.log(movies, search);
-    }, [search]);
+    function getFilteredMovies() {
+        console.log(movies);
+        console.log(search);
+        setFilteredMovies(MoviesFilter(movies, search));
+    };
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -186,14 +183,14 @@ function App() {
                 <Route path="/movies" element={
                     <Movies
                         isLoggedIn={isLoggedIn}
-                        movies={movies}
+                        filteredMovies={filteredMovies}
                         savedMovies={savedMovies}
                         onLikeMovie={handleLikeMovie}
-                        onDislikeMovie={handleDislikeMovie}
-                        onGetAllMovies={getAllMovies}
+                        onDeleteMovie={handleDeleteMovie}
                         setSearch={setSearch}
                         search={search}
-                        filteredMovies={filteredMovies}
+                        getFilteredMovies={getFilteredMovies}
+                        setFilteredMovies={setFilteredMovies}
                     />
                 } />
 
@@ -201,7 +198,6 @@ function App() {
                     <SavedMovies
                         isLoggedIn={isLoggedIn}
                         savedMovies={savedMovies}
-                        onGetSavedMovies={handleGetSavedMovies}
                         onDeleteMovie={handleDeleteMovie}
                     />
                 } />

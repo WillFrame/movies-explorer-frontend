@@ -1,30 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ title, duration, image, onLikeMovie, onDislikeMovie, onDeleteMovie, id }) {
+function MoviesCard({ title, duration, image, onLikeMovie, onDeleteMovie, id, savedMovies }) {
     const location = useLocation().pathname;
     const [isLiked, setIsLiked] = useState(false);
 
     function handleLikeButton() {
-        if (!isLiked) {
-            onLikeMovie(id)
-        }
-        else {
-            onDislikeMovie(id);
-        }
+        isLiked ? onDeleteMovie(id) : onLikeMovie(id);
         setIsLiked(!isLiked);
     }
 
     function handleDeleteMovie() {
         onDeleteMovie(id);
     }
-    
+
+    useEffect(() => {
+        setIsLiked(savedMovies.find((item) => item.movieId === id));
+    }, [])
+
     return (
         <div className="movies-card">
             <div className="movies-card__top-container">
                 <div className="movies-card__info-container">
                     <h2 className="movies-card__title">{title}</h2>
-                    <p className="movies-card__duration">{duration}</p>
+                    <p className="movies-card__duration">{`${(duration - (duration % 60))/60}ч ${duration % 60}м`}</p>
                 </div>
 
                 { location === '/saved-movies'
