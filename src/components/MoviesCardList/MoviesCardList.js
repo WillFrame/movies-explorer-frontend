@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 
-function MoviesCardList({ movies = [], onLikeMovie, onDeleteMovie, savedMovies = [], setFilteredMovies, isLoading, isMoviesError }) {
+function MoviesCardList({ movies = [], onLikeMovie, onDeleteMovie, savedMovies = [], setFilteredMovies, isLoading, isMoviesError, search }) {
     const [count, setCount] = useState(12);
     const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
 
@@ -16,8 +16,7 @@ function MoviesCardList({ movies = [], onLikeMovie, onDeleteMovie, savedMovies =
             : currentWidth > 767 
                 ? setCount(8)
                 : setCount(5)
-        console.log(currentWidth);
-    }, [currentWidth, movies])
+    }, [currentWidth, search])
 
     function addCards() {
         window.innerWidth > 1279
@@ -37,28 +36,30 @@ function MoviesCardList({ movies = [], onLikeMovie, onDeleteMovie, savedMovies =
         }
     }, []);
 
-
     return (
         <section className="movies-card-list">
             {isLoading
                 ? <Preloader />
                 : <>
                     { isMoviesError
-                        ? <p className="movies-card-list__error">Произошла ошибка</p>
-                        : <div className="movies-card-list__container">
-                            {movies.map((item) =>
-                                <MoviesCard
-                                    title={item.nameRU}
-                                    duration={item.duration}
-                                    onLikeMovie={onLikeMovie}
-                                    onDeleteMovie={onDeleteMovie}
-                                    image={item.image.url ? ('https://api.nomoreparties.co/' + item.image.url) : item.image}
-                                    id={item.movieId || item.id}
-                                    key={item.movieId || item.id}
-                                    savedMovies={savedMovies}
-                                />
-                            ).slice(0, count)}
-                        </div>
+                        ? <p className="movies-card-list__error">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p>
+                        : movies.length === 0
+                            ? <p className="movies-card-list__error">Ничего не найдено</p>
+                            : <div className="movies-card-list__container">
+                                {movies.map((item) =>
+                                    <MoviesCard
+                                        title={item.nameRU}
+                                        duration={item.duration}
+                                        onLikeMovie={onLikeMovie}
+                                        onDeleteMovie={onDeleteMovie}
+                                        image={item.image.url ? ('https://api.nomoreparties.co/' + item.image.url) : item.image}
+                                        id={item.movieId || item.id}
+                                        key={item.movieId || item.id}
+                                        savedMovies={savedMovies}
+                                        trailerLink={item.trailerLink}
+                                    />
+                                ).slice(0, count)}
+                            </div>
                     }
                     { movies.length > count
                         ? <button className="movies-card-list__more-button" type="button" onClick={addCards}>Ещё</button>

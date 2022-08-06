@@ -25,7 +25,7 @@ function App() {
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [search, setSearch] = useState({ key: '', short: false});
     const [isLoading, setIsLoading] = useState(false);
-    const [isMoviesError, setIsMoviesError] = useState(false);
+    const [isMoviesError, setIsMoviesError] = useState(true);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -60,9 +60,10 @@ function App() {
                         setIsLoggedIn(true);
                         navigate('/movies');
                     });
+                setIsLoginError(false);
             })
             .catch((err) => {
-                setIsLoginError(false);
+                setIsLoginError(true);
                 console.log(err);
             })
     };
@@ -97,6 +98,7 @@ function App() {
         register(name, email, password)
             .then(() => {
                 handleLogin(email, password);
+                setIsRegisterError(false);
             })
             .catch((err) => {
                 setIsRegisterError(true);
@@ -122,7 +124,10 @@ function App() {
             thumbnail: `https://api.nomoreparties.co` + movie.image.formats.thumbnail.url
         });
         getSavedMovies()
-            .then(res => setSavedMovies(res.data))
+            .then(res => {
+                setSavedMovies(res.data);
+                setIsMoviesError(false);
+            })
             .catch(err => {
                 console.log(err);
                 setIsMoviesError(true);
@@ -133,7 +138,8 @@ function App() {
         const movie = savedMovies.find((item) => item.movieId === id);
         deleteMovie(movie._id)
             .then(() => {
-                setSavedMovies(savedMovies.filter((item) => item.movieId !== id))
+                setSavedMovies(savedMovies.filter((item) => item.movieId !== id));
+                setIsMoviesError(false);
             })
             .catch((err) => {
                 console.log(err);
@@ -145,6 +151,7 @@ function App() {
         setIsLoading(true);
         Promise.all([getSavedMovies(), getMovies()])
             .then(([savedRes, moviesRes]) => {
+                setIsMoviesError(false);
                 setSavedMovies(savedRes.data);
                 setMovies(moviesRes);
             })

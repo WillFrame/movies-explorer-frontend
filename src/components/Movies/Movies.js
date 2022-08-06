@@ -16,7 +16,7 @@ function Movies({
     getFilteredMovies,
     setFilteredMovies,
     isLoading,
-    isMoviesError
+    isMoviesError,
 }) {
     return (
         <>
@@ -31,6 +31,7 @@ function Movies({
                 setFilteredMovies={setFilteredMovies}
                 isLoading={isLoading}
                 isMoviesError={isMoviesError}
+                search={search}
             />
             <Footer />
         </>
