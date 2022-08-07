@@ -11,15 +11,11 @@ function SearchForm({ setSearch, search, getFilteredMovies }) {
     }
 
     useEffect(() => {
-        if (location.pathname === '/movies') {
+        if (location.pathname === '/movies' && JSON.parse(localStorage.getItem('search'))) {
             setSearch({ ...search, key : input });
             setInput(JSON.parse(localStorage.getItem('search')).key);
         }
     }, [])
-
-    console.log(input);
-    console.log(JSON.parse(localStorage.getItem('search')).short)
-    console.log(search);
 
     function inputChange(e) {
         setInput(e.target.value);

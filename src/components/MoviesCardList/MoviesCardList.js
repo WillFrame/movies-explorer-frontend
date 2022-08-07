@@ -47,7 +47,7 @@ function MoviesCardList({
                 : <>
                     { isMoviesError
                         ? <p className="movies-card-list__error">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p>
-                        : movies.length === 0
+                        : (movies === [])
                             ? <p className="movies-card-list__error">Ничего не найдено</p>
                             : <div className="movies-card-list__container">
                                 {movies.map((item) =>

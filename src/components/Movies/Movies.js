@@ -20,12 +20,14 @@ function Movies({
     setSavedMovies
 }) {
     useEffect(() => {
-        getSavedMovies()
-            .then(res => {
-                setSavedMovies(res.data);
-                setFilteredMovies(JSON.parse(localStorage.getItem('movies')));
-                setSearch(JSON.parse(localStorage.getItem('search')));
-            });
+        if (JSON.parse(localStorage.getItem('movies'))) {
+            getSavedMovies()
+                .then(res => {
+                    setSavedMovies(res.data);
+                    setFilteredMovies(JSON.parse(localStorage.getItem('movies')));
+                    setSearch(JSON.parse(localStorage.getItem('search')));
+                });
+        }
     }, []);
 
     return (

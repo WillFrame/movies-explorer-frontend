@@ -6,7 +6,7 @@ function FilterCheckbox({ setSearch, search }) {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.pathname === '/movies') {
+        if (location.pathname === '/movies' && JSON.parse(localStorage.getItem('search'))) {
             setSearch({ ...search, short: checked });
             setChecked(JSON.parse(localStorage.getItem('search')).short);
         }
