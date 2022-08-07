@@ -68,7 +68,7 @@
     border: none;
     outline: none;
     padding: 0;
-    margin: auto 0 16px;
+    margin: auto 0 0;
     color: white;
     font-size: 14px;
     line-height: 17px;
@@ -86,7 +86,7 @@
     line-height: 17px;
     text-align: center;
     color: #8B8B8B;
-    margin: 0;
+    margin: 16px 0 0;
 }
 
 .login__link {
@@ -98,6 +98,22 @@
 .login__link:hover {
     opacity: .7;
     transition: .2s;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+}
+
+.login__submit_disabled {
+    background-color: #F8F8F8;
+    color: #C2C2C2;
+}
+
+.login__submit_disabled:hover {
+    opacity: 1;
+    cursor: default;
 }
 
 @media screen and (max-width: 1279px) {
@@ -125,11 +141,15 @@
     .login__submit {
         font-size: 12px;
         line-height: 15px;
-        margin-bottom: 14px;
     }
 
     .login__text {
         font-size: 12px;
         line-height: 15px;
+        margin-top: 14px;
+    }
+
+    .login__form {
+        height: calc(100vh - 312px);
     }
 }

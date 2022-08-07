@@ -2,8 +2,6 @@
     height: calc(100vh - 214px);
     background-color: #202020;
     padding: 70px calc((100% - 1140px) / 2);
-    display: flex;
-    flex-direction: column;
 }
 
 .profile__greeting {
@@ -24,7 +22,7 @@
 }
 
 .profile__info-container:last-of-type {
-    margin: 0 auto;
+    margin: 0 auto auto;
     padding: 0;
     border: none;
 }
@@ -59,6 +57,7 @@
     font-size: 11px;
     line-height: 13px;
     color: #FF004C;
+    max-width: 300px;
 }
 
 .profile__span_disabled {
@@ -129,6 +128,12 @@
     cursor: default;
 }
 
+.profile__form {
+    height: calc(100% - 152px);
+    flex-direction: column;
+    display: flex;
+}
+
 @media screen and (max-width: 1279px) {
     .profile {
         padding: 236px 0 269px;
@@ -142,6 +147,10 @@
     .profile__span {
         font-size: 10px;
         line-height: 12px;
+    }
+
+    .profile__form {
+        height: calc(100% - 125px);
     }
 }
 
@@ -170,5 +179,9 @@
 
     .profile__save-button {
         width: 260px;
+    }
+
+    .profile__form {
+        height: calc(100% - 109px);
     }
 }

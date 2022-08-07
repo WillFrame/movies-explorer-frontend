@@ -41,7 +41,6 @@
 
 .header__profile {
     margin-left: auto;
-    background-color: #202020;
     border: none;
     border-radius: 50px;
     color: white;
@@ -107,7 +106,6 @@
 }
 
 .header__menu-button {
-    background-color: #202020;
     border: none;
     width: 44px;
     height: 44px;
