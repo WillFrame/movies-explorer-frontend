@@ -1,35 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useFormWithValidation } from "../../utils/useFormWithValidation";
 import Logo from '../../images/logo.svg';
 
-function Login({ onLogin, isError }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+function Login({ onLogin, error, setError }) {
+    const { values, handleChange, errors, isValid } = useFormWithValidation();
 
-    function handleEmailChange(e) {
-        setEmail(e.target.value);
-    }
+    function errorHandler() {
+        for (const key in errors) {
+            if (errors[key]) {
+                return errors[key]
+            };
+        }
+    };
 
-    function handlePasswordChange(e) {
-        setPassword(e.target.value);
-    }
+    useEffect(() => {
+        setError('');
+    }, [values]);
 
     function handleSubmit(e) {
         e.preventDefault();
-        onLogin(email, password);
+        onLogin(values.email, values.password);
     }
 
     return (
         <section className="login">
-            <img className="login__logo" src={Logo} alt="Логотип" />
+            <Link to="/">
+                <img className="login__logo" src={Logo} alt="Логотип" />
+            </Link>
             <h1 className="login__greeting">Рады видеть!</h1>
             <form className="login__form" onSubmit={handleSubmit}>
                 <label className="login__input-name">E-mail</label>
-                <input className="login__input" onChange={handleEmailChange} required />
+                <input
+                    className="login__input"
+                    onChange={handleChange}
+                    required
+                    type="email"
+                    value={values.email || ''}
+                    name='email'
+                />
                 <label className="login__input-name">Пароль</label>
-                <input className={`login__input ${isError ? 'login__input_color_red' : ''}`} onChange={handlePasswordChange} required />
-                <span className={`login__span ${isError ? '' : 'login__span_disabled'}`}>Что-то пошло не так...</span>
-                <button className="login__submit" type="submit">Войти</button>
+                <input
+                    className={`login__input ${error ? 'login__input_color_red' : ''}`}
+                    onChange={handleChange}
+                    required
+                    type='password'
+                    minLength='8'
+                    value={values.password || ''}
+                    name='password'
+                />
+                { Object.values(errors).length > 0 && (<span className="login__span">{errorHandler()}</span>) }
+                { error && (<span className={`login__span ${error ? '' : 'login__span_disabled'}`}>{error}</span>) }
+                <button className={`login__submit ${(error || !isValid) ? 'login__submit_disabled' : ''}`} type="submit" disabled={!isValid || error}>Войти</button>
             </form>
             <p className="login__text">Ещё не зарегестрированы?<Link className="login__link" to="/signup">Регистрация</Link></p>
         </section>

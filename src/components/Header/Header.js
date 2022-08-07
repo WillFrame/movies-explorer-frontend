@@ -20,7 +20,9 @@ function Header({ theme, isLoggedIn }) {
 
     return (
         <header className={`header ${theme}`}>
-            <img className="header__logo" src={logo} alt="Логотип" />
+            <Link to="/">
+                <img className="header__logo" src={logo} alt="Логотип" />
+            </Link>
             { isLoggedIn
                 ? <>
                     <Link to="/movies" className={`header__link ${location === '/movies' ? 'header__link_active' : ''}`}>Фильмы</Link>

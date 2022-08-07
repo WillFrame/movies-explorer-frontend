@@ -16,16 +16,17 @@ import './App.css';
 function App() {
     const [currentUser, setCurrentUser] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isRegisterError, setIsRegisterError] = useState(false);
-    const [isLoginError, setIsLoginError] = useState(false);
     const [isProfileError, setIsProfileError] = useState(false);
+    const [error, setError] = useState('');
     const [isProfileEdit, setIsProfileEdit] = useState(false);
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
-    const [search, setSearch] = useState({ key: '', short: false});
+    const [search, setSearch] = useState({ key: '', short: false });
+    const [searched, setSearched] = useState({ key: '', short: false });
+    const [searchedMovies, setSearchedMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isMoviesError, setIsMoviesError] = useState(true);
+    const [isMoviesError, setIsMoviesError] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -44,11 +45,16 @@ function App() {
                 });
         }
         else {
-            if ((location.pathname !== '/signin') && (location.pathname !== '/signup')) {
+            if ((location.pathname === '/movies') && (location.pathname === '/saved-movies') && (location.pathname === '/profile')) {
                 navigate('/');
             }
         }
     }, []);
+
+    useEffect(() => {
+        setSearchedMovies(JSON.parse(localStorage.getItem('movies')));
+        setSearched(JSON.parse(localStorage.getItem('search')));
+    }, [])
 
     function handleLogin(email, password) {
         authorize(email, password)
@@ -60,10 +66,10 @@ function App() {
                         setIsLoggedIn(true);
                         navigate('/movies');
                     });
-                setIsLoginError(false);
+                setError('');
             })
             .catch((err) => {
-                setIsLoginError(true);
+                setError('Что-то пошло не так');
                 console.log(err);
             })
     };
@@ -98,11 +104,11 @@ function App() {
         register(name, email, password)
             .then(() => {
                 handleLogin(email, password);
-                setIsRegisterError(false);
+                setError('');
             })
             .catch((err) => {
-                setIsRegisterError(true);
-                console.log(err)
+                setError('Что-то пошло не так');
+                console.log(err);
             })
     };
 
@@ -155,6 +161,11 @@ function App() {
                 setSavedMovies(savedRes.data);
                 setMovies(moviesRes);
             })
+            .then(() => {
+                
+            })
+            .then(() => {
+            })
             .catch((err) => {
                 console.log(err);
                 setIsMoviesError(true);
@@ -163,12 +174,23 @@ function App() {
     }
 
     useEffect(() => {
-        if (movies && savedMovies) {
-            location.pathname === '/movies'
-                ? setFilteredMovies(MoviesFilter(movies, search))
-                : setFilteredMovies(MoviesFilter(savedMovies, search));
+        if (movies && savedMovies && location.pathname === '/movies') {
+            setFilteredMovies(MoviesFilter(movies, search));
+        } else {
+            setFilteredMovies(MoviesFilter(savedMovies, search));
         }
     }, [movies, savedMovies]);
+
+    useEffect(() => {
+        if (location.pathname === '/movies' && filteredMovies.length !== 0) {
+            localStorage.setItem('movies', JSON.stringify(filteredMovies));
+            localStorage.setItem('search', JSON.stringify(search));
+            setSearchedMovies(filteredMovies);
+            setSearched(search);
+            console.log(JSON.parse(localStorage.getItem('search')), JSON.parse(localStorage.getItem('movies')));
+            console.log(searched, searchedMovies);
+        }
+    }, [filteredMovies]);
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -176,14 +198,16 @@ function App() {
                 <Route path="/signin" element={
                     <Login
                         onLogin={handleLogin}
-                        isError={isLoginError}
+                        error={error}
+                        setError={setError}
                     />
                 } />
 
                 <Route path="/signup" element={
                     <Register
                         onRegister={handleRegister}
-                        isError={isRegisterError}
+                        error={error}
+                        setError={setError}
                     />
                 } />
 
@@ -199,11 +223,13 @@ function App() {
                         onLikeMovie={handleLikeMovie}
                         onDeleteMovie={handleDeleteMovie}
                         setSearch={setSearch}
-                        search={search}
+                        search={searched}
                         getFilteredMovies={getFilteredMovies}
                         setFilteredMovies={setFilteredMovies}
                         isLoading={isLoading}
                         isMoviesError={isMoviesError}
+                        searched={searched}
+                        searchedMovies={searchedMovies}
                     />
                 } />
 

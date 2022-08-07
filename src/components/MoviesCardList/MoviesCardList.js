@@ -2,13 +2,40 @@ import React, { useEffect, useState } from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 
-function MoviesCardList({ movies = [], onLikeMovie, onDeleteMovie, savedMovies = [], setFilteredMovies, isLoading, isMoviesError, search }) {
+function MoviesCardList({
+    movies = [],
+    onLikeMovie,
+    onDeleteMovie,
+    savedMovies = [],
+    setFilteredMovies,
+    isLoading,
+    isMoviesError,
+    search,
+    setSearch,
+    searched,
+    searchedMovies
+}) {
     const [count, setCount] = useState(12);
     const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
 
     useEffect(() => {
-        setFilteredMovies([]);
-    }, []);
+        setFilteredMovies(searchedMovies);
+        // setSearch(searched);
+    }, [searchedMovies]);
+
+    // console.log(movies);
+
+    // useEffect(() => {
+    //     if (location === '/movies') {
+    //         if (searched.key !== '') {
+    //             movies = searchedMovies;
+    //             search = searched;
+    //         } else {
+    //             movies = JSON.parse(localStorage.getItem('movies'));
+    //             search = JSON.parse(localStorage.getItem('search'));
+    //         }
+    //     }
+    // }, [])
 
     useEffect(() => {
         currentWidth > 1279

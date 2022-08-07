@@ -17,12 +17,14 @@ function Movies({
     setFilteredMovies,
     isLoading,
     isMoviesError,
+    searched,
+    searchedMovies
 }) {
     return (
         <>
             <Header theme="header_theme_dark" isLoggedIn={isLoggedIn} />
             <SearchForm setSearch={setSearch} search={search} getFilteredMovies={getFilteredMovies} />
-            <FilterCheckbox setSearch={setSearch} search={search} />
+            <FilterCheckbox setSearch={setSearch} search={search} searched={searched} />
             <MoviesCardList
                 movies={filteredMovies}
                 onLikeMovie={onLikeMovie}
@@ -32,6 +34,9 @@ function Movies({
                 isLoading={isLoading}
                 isMoviesError={isMoviesError}
                 search={search}
+                searched={searched}
+                searchedMovies={searchedMovies}
+                setSearch={setSearch}
             />
             <Footer />
         </>
