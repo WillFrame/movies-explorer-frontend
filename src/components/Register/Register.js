@@ -49,6 +49,7 @@ function Register({ onRegister, isError, error, setError }) {
                     type="email"
                     value={values.email || ''}
                     name='email'
+                    pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
                 />
                 <label className="register__input-name">Пароль</label>
                 <input

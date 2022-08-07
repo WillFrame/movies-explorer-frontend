@@ -38,6 +38,7 @@ function Login({ onLogin, error, setError }) {
                     type="email"
                     value={values.email || ''}
                     name='email'
+                    pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
                 />
                 <label className="login__input-name">Пароль</label>
                 <input

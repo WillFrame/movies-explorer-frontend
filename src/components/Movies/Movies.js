@@ -15,17 +15,23 @@ function Movies({
     getFilteredMovies,
     setFilteredMovies,
     isLoading,
-    isMoviesError,
+    moviesError,
     getSavedMovies,
-    setSavedMovies
+    setSavedMovies,
+    isSearched,
+    setIsSearched
 }) {
     useEffect(() => {
-        getSavedMovies()
-            .then(res => {
-                setSavedMovies(res.data);
-                setFilteredMovies(JSON.parse(localStorage.getItem('movies')));
-                setSearch(JSON.parse(localStorage.getItem('search')));
-            });
+        if (JSON.parse(localStorage.getItem('movies'))) {
+            getSavedMovies()
+                .then(res => {
+                    setSavedMovies(res.data);
+                    setFilteredMovies(JSON.parse(localStorage.getItem('movies')));
+                    setSearch(JSON.parse(localStorage.getItem('search')));
+                });
+        } else {
+            setFilteredMovies([]);
+        }
     }, []);
 
     return (
@@ -39,8 +45,10 @@ function Movies({
                 onLikeMovie={onLikeMovie}
                 onDeleteMovie={onDeleteMovie}
                 isLoading={isLoading}
-                isMoviesError={isMoviesError}
+                moviesError={moviesError}
                 search={search}
+                isSearched={isSearched}
+                setIsSearched={setIsSearched}
             />
             <Footer />
         </>

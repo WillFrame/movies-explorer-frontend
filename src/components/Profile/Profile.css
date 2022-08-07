@@ -60,6 +60,15 @@
     max-width: 300px;
 }
 
+.profile__span-success {
+    margin: auto auto 0;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #7db87d;
+    max-width: 300px;
+}
+
 .profile__span_disabled {
     display: none;
 }

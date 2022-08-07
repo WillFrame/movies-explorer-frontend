@@ -4,7 +4,7 @@ import { useFormWithValidation } from "../../utils/useFormWithValidation";
 import Header from "../Header/Header";
 import Preloader from "../Preloader/Preloader";
 
-function Profile({ isEdit, onUpdateUser, onEdit, onSignOut, isLoading, error, setError, setIsProfileEdit }) {
+function Profile({ isEdit, onUpdateUser, onEdit, onSignOut, isLoading, error, setError, setIsProfileEdit, setIsSucces, isSuccesss }) {
     const name = useContext(CurrentUserContext).name;
     const email = useContext(CurrentUserContext).email;
     const { values, handleChange, errors, isValid, setValues } = useFormWithValidation();
@@ -32,6 +32,7 @@ function Profile({ isEdit, onUpdateUser, onEdit, onSignOut, isLoading, error, se
 
     useEffect(() => {
         setIsProfileEdit(false)
+        setIsSucces(false);
     }, []);
 
     return (
@@ -73,6 +74,7 @@ function Profile({ isEdit, onUpdateUser, onEdit, onSignOut, isLoading, error, se
                                         name="email"
                                         type='email'
                                         placeholder="Email"
+                                        pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$'
                                     />
                                     : <p className="profile__info-text">{email}</p>
                                 }
@@ -90,6 +92,7 @@ function Profile({ isEdit, onUpdateUser, onEdit, onSignOut, isLoading, error, se
                                     </button>
                                 </>
                                 : <>
+                                    <span className={`profile__span-success ${isSuccesss ? '' : 'profile__span_disabled'}`}>Данные изменены</span>
                                     <button className="profile__edit-button" onClick={onEdit} type="button">Редактировать</button>
                                     <button className="profile__logout-button" type="button" onClick={onSignOut}>Выйти из аккаунта</button>
                                 </>
