@@ -16,7 +16,6 @@ import './App.css';
 function App() {
     const [currentUser, setCurrentUser] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isProfileError, setIsProfileError] = useState(false);
     const [error, setError] = useState('');
     const [isProfileEdit, setIsProfileEdit] = useState(false);
     const [movies, setMovies] = useState([]);
@@ -84,19 +83,25 @@ function App() {
             .then(() => {
                 setCurrentUser({ name, email });
                 setIsProfileEdit(false);
-                setIsProfileError(false);
+                setError('');
             })
             .catch((err) => {
-                setIsProfileError(true);
+                setError('Что-то пошло не так');
                 console.log(err)
             })
             .finally(() => setIsLoading(false))
     };
 
     function handleSignOut() {
-        localStorage.removeItem('jwt');
+        localStorage.clear();
         setIsLoggedIn(false);
         setCurrentUser({});
+        setMovies([]);
+        setSavedMovies([]);
+        setFilteredMovies([]);
+        setSearch({ key: '', short: false });
+        setSearched({ key: '', short: false });
+        setSearchedMovies([]);
         navigate('/');
     }
 
@@ -250,13 +255,14 @@ function App() {
 
                 <Route path="/profile" element={
                     <Profile
-                        isLoggedIn={isLoggedIn}
                         isEdit={isProfileEdit}
-                        isError={isProfileError}
+                        setIsProfileEdit={setIsProfileEdit}
                         onUpdateUser={handleUpdateUser}
                         onEdit={handleEditProfile}
                         onSignOut={handleSignOut}
                         isLoading={isLoading}
+                        setError={setError}
+                        error={error}
                     />
                 } />
 

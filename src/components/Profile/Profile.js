@@ -1,66 +1,93 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import CurrentUserContext from "../../context/CurrentUserContext";
+import { useFormWithValidation } from "../../utils/useFormWithValidation";
 import Header from "../Header/Header";
 import Preloader from "../Preloader/Preloader";
 
-function Profile({ isLoggedIn, isError, isEdit, onUpdateUser, onEdit, onSignOut, isLoading }) {
-    const currentUser = useContext(CurrentUserContext);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-
-    function handleNameChange(e) {
-        setName(e.target.value)
-    }
-
-    function handleEmailChange(e) {
-        setEmail(e.target.value)
-    }
+function Profile({ isEdit, onUpdateUser, onEdit, onSignOut, isLoading, error, setError, setIsProfileEdit }) {
+    const name = useContext(CurrentUserContext).name;
+    const email = useContext(CurrentUserContext).email;
+    const { values, handleChange, errors, isValid, setValues } = useFormWithValidation();
 
     function handleSubmit(e) {
         e.preventDefault();
-        onUpdateUser(name, email);
+        onUpdateUser(values.name, values.email);
+    };
+
+    function errorHandler() {
+        for (const key in errors) {
+            if (errors[key]) {
+                return errors[key]
+            };
+        }
     };
 
     useEffect(() => {
-        setEmail('');
-        setName('')
-    }, [isEdit]);
+        setValues({ name, email });
+    }, [name, email]);
+    
+    useEffect(() => {
+        setError('');
+    }, [values]);
+
+    useEffect(() => {
+        setIsProfileEdit(false)
+    }, []);
 
     return (
         <>
-            <Header theme="header_theme_dark" isLoggedIn={isLoggedIn} />
+            <Header theme="header_theme_dark" isLoggedIn={true} />
             <section className="profile">
                 {isLoading
                     ? <Preloader />
                     : <>
-                        <h1 className="profile__greeting">{`Привет, ` + currentUser.name}</h1>
+                        <h1 className="profile__greeting">{`Привет, ` + name}</h1>
                         <form className="profile__form" onSubmit={handleSubmit}>
                             <div className="profile__info-container">
                                 <p className="profile__info-title">Имя</p>
                                 { isEdit
-                                    ? <input className="profile__info-text" value={name} onChange={handleNameChange} maxLength='20' minLength='2' required />
-                                    : <p className="profile__info-text">{currentUser.name}</p>
+                                    ? <input
+                                        className="profile__info-text"
+                                        value={values.name || ''}
+                                        onChange={handleChange}
+                                        maxLength='20'
+                                        minLength='2'
+                                        required
+                                        name="name"
+                                        type='text'
+                                        placeholder="Имя"
+                                    />
+                                    : <p className="profile__info-text">{name}</p>
                                 }
                             </div>
                             <div className="profile__info-container">
                                 <p className="profile__info-title">E-mail</p>
                                 { isEdit
-                                    ? <input className="profile__info-text" value={email} onChange={handleEmailChange} maxLength='20' minLength='2' required />
-                                    : <p className="profile__info-text">{currentUser.email}</p>
+                                    ? <input
+                                        className="profile__info-text"
+                                        value={values.email || ''}
+                                        onChange={handleChange}
+                                        maxLength='20'
+                                        minLength='2'
+                                        required
+                                        name="email"
+                                        type='email'
+                                        placeholder="Email"
+                                    />
+                                    : <p className="profile__info-text">{email}</p>
                                 }
                             </div>
                             { isEdit
                                 ? <>
-                                    { isError
-                                        ? <>
-                                            <span className='profile__span'>При обновлении профиля произошла ошибка.</span>
-                                            <button className='profile__save-button profile__save-button_disabled' disabled type="submit">Сохранить</button>
-                                        </>
-                                        : <>
-                                            <span className='profile__span profile__span_disabled'>При обновлении профиля произошла ошибка.</span>
-                                            <button className='profile__save-button' type="submit">Сохранить</button>
-                                        </>
-                                    }
+                                    { Object.values(errors).length > 0 && (<span className="profile__span">{errorHandler()}</span>) }
+                                    { error && (<span className={`profile__span ${error ? '' : 'profile__span_disabled'}`}>{error}</span>) }
+                                    <button
+                                        className={`profile__save-button ${(error || !isValid || (name === values.name && email === values.email)) ? 'profile__save-button_disabled' : ''}`}
+                                        type="submit"
+                                        disabled={!isValid || error || (name === values.name && email === values.email)}
+                                    >
+                                        Сохранить
+                                    </button>
                                 </>
                                 : <>
                                     <button className="profile__edit-button" onClick={onEdit} type="button">Редактировать</button>

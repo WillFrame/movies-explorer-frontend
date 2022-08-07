@@ -22,7 +22,7 @@
 }
 
 .profile__info-container:last-of-type {
-    margin: 0 auto;
+    margin: 0 auto auto;
     padding: 0;
     border: none;
 }
@@ -57,6 +57,7 @@
     font-size: 11px;
     line-height: 13px;
     color: #FF004C;
+    max-width: 300px;
 }
 
 .profile__span_disabled {
