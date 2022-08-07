@@ -17,7 +17,7 @@ function Profile({ isEdit, onUpdateUser, onEdit, onSignOut, isLoading, error, se
     function errorHandler() {
         for (const key in errors) {
             if (errors[key]) {
-                return errors[key]
+                return errors[key];
             };
         }
     };

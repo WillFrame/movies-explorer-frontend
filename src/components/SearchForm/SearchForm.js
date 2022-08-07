@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 
 function SearchForm({ setSearch, search, getFilteredMovies }) {
+    const [input, setInput] = useState('');
+    const location = useLocation();
+
     function handleSubmit(e) {
         e.preventDefault();
         getFilteredMovies();
     }
 
-    function handleChangeKey(e) {
+    useEffect(() => {
+        if (location.pathname === '/movies') {
+            setSearch({ ...search, key : input });
+            setInput(JSON.parse(localStorage.getItem('search')).key);
+        }
+    }, [])
+
+    console.log(input);
+    console.log(JSON.parse(localStorage.getItem('search')).short)
+    console.log(search);
+
+    function inputChange(e) {
+        setInput(e.target.value);
         setSearch({ ...search, key: e.target.value });
-        console.log(search);
     }
 
     return (
@@ -18,7 +33,8 @@ function SearchForm({ setSearch, search, getFilteredMovies }) {
                     className="search-form__input"
                     placeholder="Фильм"
                     required
-                    onChange={handleChangeKey}
+                    onChange={inputChange}
+                    value={input}
                 />
                 <button className="search-form__submit" type="submit">Поиск</button>
             </div>

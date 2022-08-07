@@ -4,38 +4,15 @@ import Preloader from "../Preloader/Preloader";
 
 function MoviesCardList({
     movies = [],
+    savedMovies = [],
     onLikeMovie,
     onDeleteMovie,
-    savedMovies = [],
-    setFilteredMovies,
     isLoading,
     isMoviesError,
-    search,
-    setSearch,
-    searched,
-    searchedMovies
+    search
 }) {
     const [count, setCount] = useState(12);
     const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
-
-    useEffect(() => {
-        setFilteredMovies(searchedMovies);
-        // setSearch(searched);
-    }, [searchedMovies]);
-
-    // console.log(movies);
-
-    // useEffect(() => {
-    //     if (location === '/movies') {
-    //         if (searched.key !== '') {
-    //             movies = searchedMovies;
-    //             search = searched;
-    //         } else {
-    //             movies = JSON.parse(localStorage.getItem('movies'));
-    //             search = JSON.parse(localStorage.getItem('search'));
-    //         }
-    //     }
-    // }, [])
 
     useEffect(() => {
         currentWidth > 1279
