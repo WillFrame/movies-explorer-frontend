@@ -15,13 +15,14 @@ function SavedMovies({
     setFilteredMovies,
     isLoading,
     isMoviesError,
-    getSavedMovies
+    getSavedMovies,
+    isSearched,
+    setIsSearched
 }) {
     useEffect(() => {
         getSavedMovies()
             .then(res => {
                 setFilteredMovies(res.data);
-                console.log(res.data)
             });
     }, [])
 
@@ -36,8 +37,10 @@ function SavedMovies({
                 movies={filteredMovies}
                 setFilteredMovies={setFilteredMovies}
                 isLoading={isLoading}
-                isMoviesError={isMoviesError}
+                moviesError={isMoviesError}
                 search={search}
+                isSearched={isSearched}
+                setIsSearched={setIsSearched}
             />
             <Footer />
         </>

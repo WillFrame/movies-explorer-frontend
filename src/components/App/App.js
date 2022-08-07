@@ -17,12 +17,14 @@ function App() {
     const [currentUser, setCurrentUser] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [error, setError] = useState('');
+    const [isSuccesss, setIsSucces] = useState(false);
     const [isProfileEdit, setIsProfileEdit] = useState(false);
     const [savedMovies, setSavedMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [search, setSearch] = useState({ key: '', short: false });
     const [isLoading, setIsLoading] = useState(false);
-    const [isMoviesError, setIsMoviesError] = useState(false);
+    const [isSearched, setIsSearched] = useState(false);
+    const [moviesError, setMoviesError] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -76,6 +78,8 @@ function App() {
                 setCurrentUser({ name, email });
                 setIsProfileEdit(false);
                 setError('');
+                setIsSearched(true);
+                setIsSucces(true);
             })
             .catch((err) => {
                 setError('Что-то пошло не так');
@@ -91,6 +95,7 @@ function App() {
         setSavedMovies([]);
         setFilteredMovies([]);
         setSearch({ key: '', short: false });
+        setIsSearched(false);
         navigate('/');
     };
 
@@ -99,6 +104,7 @@ function App() {
             .then(() => {
                 handleLogin(email, password);
                 setError('');
+                setIsSearched(true);
             })
             .catch((err) => {
                 setError('Что-то пошло не так');
@@ -126,11 +132,12 @@ function App() {
         getSavedMovies()
             .then(res => {
                 setSavedMovies(res.data);
-                setIsMoviesError(false);
+                setMoviesError('');
+                setIsSearched(true);
             })
             .catch(err => {
                 console.log(err);
-                setIsMoviesError(true);
+                setMoviesError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
             });
     };
 
@@ -139,11 +146,11 @@ function App() {
         deleteMovie(movie._id)
             .then(() => {
                 setSavedMovies(savedMovies.filter((item) => item.movieId !== id));
-                setIsMoviesError(false);
+                setMoviesError('');
             })
             .catch((err) => {
                 console.log(err);
-                setIsMoviesError(true);
+                setMoviesError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
             });
     };
 
@@ -151,21 +158,21 @@ function App() {
         setIsLoading(true);
         Promise.all([getSavedMovies(), getMovies()])
             .then(([savedRes, moviesRes]) => {
-                setIsMoviesError(false);
+                setMoviesError('');
                 setSavedMovies(savedRes.data);
+                setIsSearched(true);
                 if (location.pathname === '/movies') {
                     const movies = MoviesFilter(moviesRes, search);
                     setFilteredMovies(movies);
                     localStorage.setItem('movies', JSON.stringify(movies));
                     localStorage.setItem('search', JSON.stringify(search));
-                    console.log(JSON.parse(localStorage.getItem('search')), JSON.parse(localStorage.getItem('movies')));
                 } else {
                     setFilteredMovies(MoviesFilter(savedRes.data, search));
                 }
             })
             .catch((err) => {
                 console.log(err);
-                setIsMoviesError(true);
+                setMoviesError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
             })
             .finally(() => setIsLoading(false));
     };
@@ -204,9 +211,11 @@ function App() {
                         getFilteredMovies={getFilteredMovies}
                         setFilteredMovies={setFilteredMovies}
                         isLoading={isLoading}
-                        isMoviesError={isMoviesError}
                         getSavedMovies={getSavedMovies}
                         setSavedMovies={setSavedMovies}
+                        moviesError={moviesError}
+                        isSearched={isSearched}
+                        setIsSearched={setIsSearched}
                     />
                 } />
 
@@ -220,8 +229,10 @@ function App() {
                         filteredMovies={filteredMovies}
                         setFilteredMovies={setFilteredMovies}
                         isLoading={isLoading}
-                        isMoviesError={isMoviesError}
                         getSavedMovies={getSavedMovies}
+                        isSearched={isSearched}
+                        setIsSearched={setIsSearched}
+                        moviesError={moviesError}
                     />
                 } />
 
@@ -235,6 +246,8 @@ function App() {
                         isLoading={isLoading}
                         setError={setError}
                         error={error}
+                        setIsSucces={setIsSucces}
+                        isSuccesss={isSuccesss}
                     />
                 } />
 

@@ -8,11 +8,17 @@ function MoviesCardList({
     onLikeMovie,
     onDeleteMovie,
     isLoading,
-    isMoviesError,
-    search
+    moviesError,
+    search,
+    isSearched,
+    setIsSearched
 }) {
     const [count, setCount] = useState(12);
     const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        setIsSearched(false);
+    }, [])
 
     useEffect(() => {
         currentWidth > 1279
@@ -28,7 +34,7 @@ function MoviesCardList({
             : window.innerWidth > 767 
                 ? setCount(count + 2)
                 : setCount(count + 2)
-    }
+    };
 
     useEffect(() => {
         function setWidth() {
@@ -45,10 +51,13 @@ function MoviesCardList({
             {isLoading
                 ? <Preloader />
                 : <>
-                    { isMoviesError
-                        ? <p className="movies-card-list__error">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p>
-                        : (movies === [])
-                            ? <p className="movies-card-list__error">Ничего не найдено</p>
+                    { (moviesError && moviesError !== '')
+                        ? <p className="movies-card-list__error">{moviesError}</p>
+                        : (movies.length === 0)
+                            ? ( (isSearched)
+                                ? <p className="movies-card-list__error">Ничего не найдено</p>
+                                : <></>
+                            )
                             : <div className="movies-card-list__container">
                                 {movies.map((item) =>
                                     <MoviesCard
