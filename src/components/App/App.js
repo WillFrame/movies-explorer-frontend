@@ -43,7 +43,7 @@ function App() {
                 });
         }
         else {
-            if ((location.pathname === '/movies') && (location.pathname === '/saved-movies') && (location.pathname === '/profile')) {
+            if ((location.pathname === '/movies') || (location.pathname === '/saved-movies') || (location.pathname === '/profile')) {
                 navigate('/');
             }
         }
